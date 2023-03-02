@@ -1,6 +1,12 @@
 //return WEbApplicationBuilder
+using SupportService.Infrasctructure;
+using SupportService.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 {
+    builder.Services.AddServices();
+    builder.Services.AddInfrasctructure();
+
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
