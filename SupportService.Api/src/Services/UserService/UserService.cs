@@ -19,31 +19,38 @@ namespace SupportService.Api.src.Services.UserService
             _configuration = configuration;
         }
 
-        public string Register(RegUser regUser)
+        public string Register(RegUserDto dto)
         {
-            var user = new User
+            var user = _userRepository.Get(dto);
+
+            if (user != null) return "The user already exists";
+
+            var newUser = new User
             {
-                Username = regUser.Username,
-                Email = regUser.Email,
-                Password = regUser.Password,
+                Username = dto.Username,
+                Email = dto.Email,
+                Password = dto.Password,
             };
 
-            return _userRepository.Create(user);
+            _userRepository.Create(newUser);
+
+            return "Successful";
         }
 
-        public object Login(AuthUser authUser)
+        public AuthResponse Login(AuthUserDto dto)
         {
-            var user = _userRepository.GetUser(authUser);
+            var user = _userRepository.Get(dto);
             
-            if (user == null) { return "Error"; }
+           // if (user == null) { return "Error"; }
 
-            var tokens = new Tokens
+            var authResponse = new AuthResponse
             {
-                accessToken = GenerateToken(user.Username),
-                refreshToken = ""
+                Username= user.Username,
+                Email = user.Email,
+                Tokens = new Tokens { AccessToken = GenerateToken(user.Username) }
             };
 
-            return tokens;
+            return authResponse;
         }
 
         private string GenerateToken(string username)
@@ -59,6 +66,7 @@ namespace SupportService.Api.src.Services.UserService
 
             var securityToken = new JwtSecurityToken(
                 issuer: _configuration["JWT:Issuer"],
+                audience: _configuration["JWT:Audience"],
                 expires: DateTime.Now.AddMinutes(1),
                 claims: claims,
                 signingCredentials: singingCredentials
@@ -66,6 +74,5 @@ namespace SupportService.Api.src.Services.UserService
 
             return new JwtSecurityTokenHandler().WriteToken(securityToken);
         }
-
     }
 }

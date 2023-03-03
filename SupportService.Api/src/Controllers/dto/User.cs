@@ -2,7 +2,7 @@
 
 namespace SupportService.Api.src.Controllers.Dto
 {
-    public class AuthUser
+    public class AuthUserDto
     {
         [Required]
         public string Username { get; set; }
@@ -11,7 +11,7 @@ namespace SupportService.Api.src.Controllers.Dto
         public string Password { get; set; }
     }
 
-    public class RegUser
+    public class RegUserDto
     {
         [Required]
         public string Username { get; set; }
