@@ -2,8 +2,6 @@
 {
     public class Tokens
     {
-        public string accessToken { get; set; }
-
-        public string refreshToken { get; set; }
+        public string AccessToken { get; set; }
     }
 }

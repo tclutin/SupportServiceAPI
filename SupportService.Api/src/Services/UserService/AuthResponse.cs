@@ -1,9 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SupportService.Api.src.Entities;
 using System.Text.Json.Serialization;
 
-namespace SupportService.Api.src.Entities
+namespace SupportService.Api.src.Services.UserService
 {
-    public class User
+    public class AuthResponse
     {
         public Guid Id { get; set; } = Guid.NewGuid();
 
@@ -13,8 +13,8 @@ namespace SupportService.Api.src.Entities
 
         public string Email { get; set; }
 
-        public string Password { get; set; }
-
         public int Rating { get; set; } = 0;
+
+        public Tokens Tokens { get; set; }
     }
 }

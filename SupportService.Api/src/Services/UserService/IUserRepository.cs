@@ -5,7 +5,8 @@ namespace SupportService.Api.src.Services.UserService
 {
     public interface IUserRepository
     {
-        public string Create(User user);
-        public User? GetUser(AuthUser authUser);
+        void Create(User user);
+        User? Get(AuthUserDto dto);
+        User? Get(RegUserDto dto);
     }
 }

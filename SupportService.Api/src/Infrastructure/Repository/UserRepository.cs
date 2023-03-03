@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿
 using SupportService.Api.src.Controllers.Dto;
 using SupportService.Api.src.Entities;
 using SupportService.Api.src.Infrastructure.Repository;
@@ -16,23 +16,23 @@ namespace SupportService.Api.Infrastructure.Repository
             _userDbContext = userDbContext;
         }
 
-        public string Create(User user)
+        public void Create(User user)
         {
-            List<User> listOfUser = _userDbContext.User.Where(item => item.Username== user.Username).ToList();
-            if (listOfUser.Count != 0)
-            {
-                return "The user already exists";
-            }
-
             _userDbContext.User.Add(user);
             _userDbContext.SaveChanges();
-            return "Successfully";
         }
 
-        public User? GetUser(AuthUser authUser)
+        public User? Get(AuthUserDto dto)
         {
             return _userDbContext.User
-                .Where(u => u.Username == authUser.Username && u.Password == authUser.Password)
+                .Where(u => u.Username == dto.Username && u.Password == dto.Password)
+                .FirstOrDefault();
+        }
+
+        public User? Get(RegUserDto dto)
+        {
+            return _userDbContext.User
+                .Where(u => u.Username == dto.Username && u.Password == dto.Password)
                 .FirstOrDefault();
         }
     }

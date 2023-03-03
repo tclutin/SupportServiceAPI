@@ -10,17 +10,13 @@ namespace SupportService.Api.src.Controllers
     [Route("message")]
     public class MessageController : ControllerBase
     {
-
-
-        public MessageController()
-        {
-        }
+        public MessageController(){}
 
         [Authorize]
-        [HttpGet("get")]
+        [HttpGet("checkToken")]
         public IActionResult Get()
         {
-            return Ok("заеис");
+            return Ok("Ok");
         }
 
     }
